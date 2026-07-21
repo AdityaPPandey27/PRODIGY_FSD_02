@@ -1,21 +1,51 @@
-require('dotenv').config(); // Load environment variables first
-const app = require('./app');
-const connectDB = require('./config/db');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-// Connect to the database
-connectDB();
+const adminSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please add a name'],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, 'Please add an email'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        'Please add a valid email',
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please add a password'],
+      minlength: [6, 'Password must be at least 6 characters'],
+      select: false, // Prevents the password from being returned in queries by default
+    },
+  },
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
+  }
+);
 
-// Define the port
-const PORT = process.env.PORT || 5000;
-
-// Start the server
-const server = app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+// Pre-save hook to hash the password before saving to the database
+adminSchema.pre('save', async function (next) {
+  // If the password is not modified, skip the hashing
+  if (!this.isModified('password')) {
+    next();
+  }
+  
+  // Generate a salt and hash the password
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Handle unhandled promise rejections (e.g., failed database connection after initial load)
-process.on('unhandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`);
-  // Close server & exit process
-  server.close(() => process.exit(1));
-});
+// Custom instance method to compare entered password with the hashed password in the DB
+adminSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+module.exports = mongoose.model('Admin', adminSchema);
