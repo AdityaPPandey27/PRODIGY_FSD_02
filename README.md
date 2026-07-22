@@ -348,11 +348,11 @@ http://localhost:5173
 
 # 👨‍💻 Author
 
-**Your Name**
+**Aditya Pratap Pandey**
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/AdityaPPandey27
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: https://www.linkedin.com/in/aditya-pratap-pandey-875b36273/
 
 ---
 
