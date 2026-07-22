@@ -309,38 +309,27 @@ http://localhost:5173
 
 # 📸 Screenshots
 
-> Replace these placeholders with your screenshots.
-
-```
-screenshots/
-│
-├── login.png
-├── dashboard.png
-├── employees.png
-└── add-employee.png
-```
-
 ### 🔑 Login
 
-![Login](./screenshots/login.png)
+![Login](./Screenshot/login.png)
 
 ---
 
 ### 📊 Dashboard
 
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./Screenshot/dashboard.png)
 
 ---
 
 ### 👨‍💼 Employees
 
-![Employees](./screenshots/employees.png)
+![Employees](./Screenshot/employee.png)
 
 ---
 
 ### ➕ Add Employee
 
-![Add Employee](./screenshots/add-employee.png)
+![Add Employee](./Screenshot/addemployee.png)
 
 ---
 
